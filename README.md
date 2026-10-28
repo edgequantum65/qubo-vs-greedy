@@ -97,6 +97,6 @@ The code was sped up for v3 (whole v1/v2 script: 77 s before, 16 s after, same m
 
 ---
 
-**FR** — Une formulation « inspirée du quantique » (QUBO + recuit simulé) bat-elle un simple algorithme glouton ? Sans interactions, le glouton est déjà optimal. Avec interactions, le QUBO à pénalité échoue, à budget égal et quels que soient la pénalité et la température testées (au mieux 9/100), alors qu'un recuit qui respecte la contrainte gagne (99/100 contre 74/100 pour le glouton et 86/100 pour glouton + recherche locale ; à n = 100, 70 % contre 12,5 %). Mais à ces tailles une méthode exacte suffit : énumération en 3 ms à n = 20, MILP prouvé optimal en 6 s en moyenne à n = 100. Le gain vient de la formulation, pas du quantique. Critères écrits avant chaque essai, échec compris.
+**FR** — Une formulation « inspirée du quantique » (QUBO + recuit simulé) bat-elle un simple algorithme glouton ? Sans interactions, le glouton est déjà optimal. Avec interactions, le QUBO à pénalité échoue, à budget égal et quels que soient la pénalité et la température testées (au mieux 9/100), alors qu'un recuit qui respecte la contrainte gagne (99,2/100 en moyenne sur 5 graines, contre 74/100 pour le glouton et 86/100 pour glouton + recherche locale ; à n = 100, 69,5 % contre 12,5 %). Mais à ces tailles une méthode exacte suffit : énumération en 3 ms à n = 20, MILP prouvé optimal en 6 s en moyenne à n = 100. Le gain vient de la formulation, pas du quantique. Critères écrits avant chaque essai, échec compris.
 
 License: MIT.
