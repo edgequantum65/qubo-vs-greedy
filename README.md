@@ -20,6 +20,8 @@ Edge Quantum 65 — R&D lab, Lannemezan, France. Rule of the lab: nothing is pub
 
 "Optimal" = same value as exact enumeration over all C(20,5) = 15 504 subsets.
 
+**Budgets were unequal.** Budget = proposals evaluated per run. The QUBO annealer got 2000 sweeps x 20 = 40 000 proposed bit flips, the swap annealer 200 sweeps x 20 = 4 000 proposed swaps, 10 times fewer. This favoured the QUBO annealer, which still lost. The v3 study below compares them at equal budgets.
+
 ## What it shows
 
 1. **No interactions: greedy is already optimal.** No annealing, quantum or classical, can do better.
@@ -28,7 +30,7 @@ Edge Quantum 65 — R&D lab, Lannemezan, France. Rule of the lab: nothing is pub
 
 So the gain came from the problem formulation, not from anything quantum. Before claiming a quantum advantage, beat the greedy baseline and the best classical heuristic.
 
-Everything here is classical computation on a laptop. No quantum hardware is used.
+Everything here is classical computation on an ordinary CPU. No quantum hardware is used.
 
 ## Method
 
@@ -39,10 +41,15 @@ Everything here is classical computation on a laptop. No quantum hardware is use
 ## Run
 
 ```bash
-pip install numpy
-python -m unittest test_reference_cases
-python qubo_vs_greedy.py      # about 1 minute, writes RESULTS.md
+pip install -r requirements.txt                       # numpy, scipy (for the MILP)
+python -m unittest test_reference_cases test_fast_paths
+python qubo_vs_greedy.py   # v1/v2 table: about 15 s, writes RESULTS.md and TIMINGS.md
+python study_v3.py         # v3 study: about 15 min, writes RESULTS_V3.md and TIMINGS_V3.md
 ```
+
+CI (GitHub Actions) runs the tests, regenerates the v1/v2 table and fails if RESULTS.md changes by a single byte. It does not run the v3 study (too long, and the MILP has a time limit) and does not check timings.
+
+The code was sped up for v3 (whole v1/v2 script: 77 s before, 16 s after, same machine) without changing any result: the annealers score proposals incrementally and enumeration is vectorised, with every near-tie decision re-checked the v1/v2 way. `test_fast_paths.py` checks the new code against the v1/v2 code, and the regenerated v1/v2 table is byte-identical.
 
 ---
 

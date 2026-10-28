@@ -3,14 +3,20 @@ import unittest
 
 import numpy as np
 
-from qubo_vs_greedy import anneal, exact, greedy, value
+from qubo_vs_greedy import anneal, anneal_swap, exact, greedy, greedy_ls, milp_optimum, value
+
+
+def milp(a, b, k):
+    sel, proven = milp_optimum(a, b, k, time_limit=30.0)
+    assert proven
+    return sel
 
 
 class ReferenceCases(unittest.TestCase):
     def test_separable_known_optimum(self):
         a = np.array([5.0, 4.0, 3.0, 2.0, 1.0])
         b = np.zeros((5, 5))
-        for method in (exact, greedy, anneal):
+        for method in (exact, greedy, anneal, anneal_swap, greedy_ls, milp):
             self.assertEqual(value(method(a, b, 2), a, b), 9.0, method.__name__)
 
     def test_overlap_trap_where_greedy_fails(self):
@@ -21,12 +27,13 @@ class ReferenceCases(unittest.TestCase):
         b[0, 2] = b[2, 0] = 8.0
         self.assertEqual(value(exact(a, b, 2), a, b), 18.0)
         self.assertEqual(value(greedy(a, b, 2), a, b), 11.0)
-        self.assertEqual(value(anneal(a, b, 2), a, b), 18.0)
+        for method in (anneal, anneal_swap, greedy_ls, milp):
+            self.assertEqual(value(method(a, b, 2), a, b), 18.0, method.__name__)
 
     def test_blank_control_gives_zero(self):
         a = np.zeros(6)
         b = np.zeros((6, 6))
-        for method in (exact, greedy, anneal):
+        for method in (exact, greedy, anneal, anneal_swap, greedy_ls, milp):
             self.assertEqual(value(method(a, b, 3), a, b), 0.0, method.__name__)
 
 
