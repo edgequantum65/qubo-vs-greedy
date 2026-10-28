@@ -1,5 +1,7 @@
 # qubo-vs-greedy
 
+[![tests](https://github.com/edgequantum65/qubo-vs-greedy/actions/workflows/tests.yml/badge.svg)](https://github.com/edgequantum65/qubo-vs-greedy/actions/workflows/tests.yml)
+
 **Does a "quantum-inspired" formulation beat a plain greedy algorithm?**
 A small, reproducible benchmark on one classic problem: pick exactly K items out of n, where items have values and some pairs overlap.
 
