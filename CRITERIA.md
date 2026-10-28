@@ -80,3 +80,21 @@ them. The script was smoke-tested on other instances (seeds 50 000 and up) with 
 
 All outcomes will be appended below, passed or failed, without changing this section.
 
+## v3 outcomes, 2026-10-28 (run of commit 0cd60fa, see RESULTS_V3.md)
+
+- C5: **passed**. 4 000 proposals: swap annealing 99.2/100 against QUBO 1.0/100. 40 000 proposals: 100/100 against 12.2/100.
+- C6: **passed**, swap annealing at 4 000 proposals optimal on 99.2/100 on average (seeds 98 to 100), against 86/100 for greedy + local search.
+- C7: **passed**. Best cell 9/100 (penalty 1 x, T0 0.5 x penalty), v1 cell 8/100, five cells at 0 to 2/100.
+- C8: **passed**, 200/200 (all 200 proven optimal).
+- C9: **passed**, 40/40 at n = 60 (at most 2.0 s) and 40/40 at n = 100 (at most 14.8 s).
+- C10: **passed**, greedy optimal on 7/40 (17.5 %) at n = 60 and 2/40 (5 %) at n = 100.
+- C11: **passed**. n = 60: 36.8/40 (92 %, seeds 34 to 39) against 14/40 for greedy + local search. n = 100: 27.8/40 (69.5 %, seeds 25 to 30) against 5/40.
+- C12: **passed**, QUBO bit-flip annealing optimal on 0/40 at both sizes and both budgets.
+- Reference cases and fast-path tests: all pass.
+
+Not foreseen by any criterion: the MILP is fast enough to make heuristics unnecessary at
+these sizes whenever a few seconds per instance are acceptable. It proves the optimum in
+0.6 s on average at n = 60 and 6.3 s at n = 100,
+while the best heuristic run at n = 100 (swap annealing, 200 000 proposals, 0.65 s)
+misses it in about 30 % of runs. Greedy + local search also degrades quickly with size
+(86 % optimal at n = 20, 35 % at n = 60, 12.5 % at n = 100).
